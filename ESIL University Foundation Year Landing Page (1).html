@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation Year Program - ESIL University</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5a6b 0%, #1e3a5f 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: "🎓";
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: #4ecdc4;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        .language-tags {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .btn:focus {
+            outline: 2px solid #4ecdc4;
+            outline-offset: 2px;
+        }
+
+        .language-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-tag:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            animation: slideInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .next-step {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .step-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .step-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .step-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .step-card p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .step-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .step-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+
+        .instructor-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .instructor-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .program-features {
+            padding: 80px 0;
+            background: #2d3748;
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4ecdc4;
+        }
+
+        .stats-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-item h3 {
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .footer {
+            background: #1a202c;
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #4ecdc4;
+        }
+
+        .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #4ecdc4;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #2d3748;
+            padding-top: 2rem;
+            text-align: center;
+            color: #718096;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .language-tags {
+                flex-wrap: wrap;
+            }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator"></div>
+    
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">ESIL UNIVERSITY</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#program">Program</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Foundation Year Program</h1>
+            <p class="hero-subtitle">Master Three Languages, Three Cultures, One Future</p>
+            <div class="language-tags">
+                <span class="language-tag" onclick="switchLanguage('en')">🇬🇧 English</span>
+                <span class="language-tag" onclick="switchLanguage('ru')">🇷🇺 Русский</span>
+                <span class="language-tag" onclick="switchLanguage('kz')">🇰🇿 Қазақша</span>
+            </div>
+            <p>Innovative trilingual education framework preparing students aged 17-19 for global success through linguistic convergence and cultural understanding.</p>
+            <div class="cta-buttons">
+                <a href="#apply" class="btn btn-primary">Apply Now</a>
+                <a href="#program" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="program" class="next-step">
+        <div class="container">
+            <h2 class="section-title">Take Your Next Step</h2>
+            <div class="step-cards">
+                <div class="step-card">
+                    <span class="step-icon">🧠</span>
+                    <h3>Cognitive Excellence</h3>
+                    <p>Develop superior cognitive flexibility through trilingual brain training</p>
+                    <ul class="step-list">
+                        <li>Enhanced executive control</li>
+                        <li>Superior metalinguistic awareness</li>
+                        <li>Improved cognitive flexibility</li>
+                        <li>Cultural frame-switching abilities</li>
+                        <li>Advanced pattern recognition</li>
+                    </ul>
+                </div>
+                
+                <div class="step-card">
+                    <span class="step-icon">🌍</span>
+                    <h3>Cultural Mastery</h3>
+                    <p>Navigate three distinct cultural frameworks with confidence</p>
+                    <ul class="step-list">
+                        <li>Traditional Kazakh wisdom systems</li>
+                        <li>Russian intellectual traditions</li>
+                        <li>Western analytical approaches</li>
+                        <li>Cross-cultural communication</li>
+                        <li>Global citizenship skills</li>
+                    </ul>
+                </div>
+                
+                <div class="step-card instructor-card">
+                    <div class="instructor-image">👨‍🏫</div>
+                    <h3>Expert Faculty</h3>
+                    <p><strong>Dr. Aibek Nurlan</strong><br>
+                    Director of Trilingual Studies</p>
+                    <p>Leading researcher in multilingual education with 15+ years experience in Kazakhstan's educational transformation.</p>
+                    <a href="#contact" class="btn btn-secondary" style="margin-top: 1rem;">Contact Faculty</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="program-features">
+        <div class="container">
+            <h2 class="section-title">Program Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">🤖</span>
+                    <h3>AI Integration</h3>
+                    <p>Cutting-edge ISSAI NLP technologies including KAZ-LLM and Soyle Platform for personalized learning experiences.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">📚</span>
+                    <h3>240+ Lesson Plans</h3>
+                    <p>Comprehensive 30-week curriculum covering linguistic convergences, cultural philosophies, and academic excellence.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🔬</span>
+                    <h3>Research-Based</h3>
+                    <p>Built on extensive linguistic research documenting 10,000+ shared vocabulary items and cultural transmission patterns.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🎯</span>
+                    <h3>Assessment Excellence</h3>
+                    <p>Multilayered assessment framework measuring convergence navigation, pattern recognition, and cultural analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">240+</span>
+                    <span>Lesson Plans</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10,000+</span>
+                    <span>Vocabulary Items</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">30</span>
+                    <span>Week Program</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span>Languages</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">95%</span>
+                    <span>Success Rate</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="news" class="news-section">
+        <div class="container">
+            <h2 class="section-title">Latest News & Updates</h2>
+            <div class="news-grid">
+                <div class="news-item">
+                    <div class="news-image">📰</div>
+                    <div class="news-content">
+                        <h3>ISSAI Partnership Announcement</h3>
+                        <p>ESIL University partners with Kazakhstan's leading AI institute to integrate cutting-edge NLP technologies into our trilingual education program.</p>
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-image">🏆</div>
+                    <div class="news-content">
+                        <h3>International Recognition</h3>
+                        <p>Our trilingual framework receives recognition from UNESCO for innovative multilingual education approaches.</p>
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-image">🎓</div>
+                    <div class="news-content">
+                        <h3>First Graduates Success</h3>
+                        <p>Our inaugural Foundation Year cohort achieves 95% progression to international universities with full trilingual competency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="apply" class="next-step">
+        <div class="container">
+            <h2 class="section-title">Apply to Foundation Year Program</h2>
+            <div class="step-cards">
+                <div class="step-card">
+                    <span class="step-icon">📝</span>
+                    <h3>Application Requirements</h3>
+                    <ul class="step-list">
+                        <li>High school diploma or equivalent</li>
+                        <li>Age 17-19 years</li>
+                        <li>Basic proficiency in at least one of three languages</li>
+                        <li>Motivation letter in any of the three languages</li>
+                        <li>Academic transcripts</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="openApplicationForm()">Start Application</button>
+                </div>
+                
+                <div class="step-card">
+                    <span class="step-icon">📅</span>
+                    <h3>Important Dates</h3>
+                    <ul class="step-list">
+                        <li>Application Deadline: August 15, 2025</li>
+                        <li>Entrance Exam: August 25, 2025</li>
+                        <li>Results Announcement: September 1, 2025</li>
+                        <li>Program Start: September 15, 2025</li>
+                        <li>Orientation Week: September 8-12, 2025</li>
+                    </ul>
+                    <button class="btn btn-secondary" onclick="downloadBrochure()">Download Brochure</button>
+                </div>
+                
+                <div class="step-card">
+                    <span class="step-icon">💰</span>
+                    <h3>Tuition & Scholarships</h3>
+                    <p><strong>Program Fee:</strong> 850,000 KZT per year</p>
+                    <ul class="step-list">
+                        <li>Merit-based scholarships available</li>
+                        <li>Government funding programs</li>
+                        <li>Payment plan options</li>
+                        <li>Financial aid consultation</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="scheduleConsultation()">Schedule Consultation</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="curriculum" class="program-features">
+        <div class="container">
+            <h2 class="section-title">Curriculum Overview</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">📖</span>
+                    <h3>Weeks 1-10: Foundation</h3>
+                    <p>Cognate archaeology, political triangulations, kinship terminology, and basic trilingual competencies.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🧠</span>
+                    <h3>Weeks 11-20: Development</h3>
+                    <p>Logical fallacies, authority frameworks, reasoning traditions, and advanced cultural analysis.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🎯</span>
+                    <h3>Weeks 21-30: Mastery</h3>
+                    <p>Academic vocabulary convergence, AI integration, comprehensive assessment, and portfolio development.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🔬</span>
+                    <h3>Research Projects</h3>
+                    <p>Independent research in trilingual contexts, cultural transmission studies, and linguistic archaeology.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="viewFullCurriculum()">View Full Curriculum</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="faculty" class="next-step">
+        <div class="container">
+            <h2 class="section-title">Meet Our Faculty</h2>
+            <div class="step-cards">
+                <div class="step-card instructor-card">
+                    <div class="instructor-image">👨‍🏫</div>
+                    <h3>Dr. Aibek Nurlan</h3>
+                    <p><strong>Director of Trilingual Studies</strong></p>
+                    <p>PhD in Applied Linguistics, 15+ years in multilingual education research.</p>
+                    <button class="btn btn-secondary" onclick="contactFaculty('dr.nurlan@esil.edu.kz')">Contact</button>
+                </div>
+                
+                <div class="step-card instructor-card">
+                    <div class="instructor-image">👩‍🏫</div>
+                    <h3>Prof. Elena Kozhanova</h3>
+                    <p><strong>Russian Language & Culture</strong></p>
+                    <p>Expert in Slavic linguistics and Russian intellectual traditions.</p>
+                    <button class="btn btn-secondary" onclick="contactFaculty('e.kozhanova@esil.edu.kz')">Contact</button>
+                </div>
+                
+                <div class="step-card instructor-card">
+                    <div class="instructor-image">👨‍💻</div>
+                    <h3>Dr. James Robertson</h3>
+                    <p><strong>English & AI Integration</strong></p>
+                    <p>Specialist in NLP technologies and Western analytical frameworks.</p>
+                    <button class="btn btn-secondary" onclick="contactFaculty('j.robertson@esil.edu.kz')">Contact</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="scholarships" class="stats-section">
+        <div class="container">
+            <h2 class="section-title" style="color: white; margin-bottom: 2rem;">Scholarship Opportunities</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">75%</span>
+                    <span>Students Receive Aid</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500,000</span>
+                    <span>KZT Max Scholarship</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">12</span>
+                    <span>Scholarship Types</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span>Need-Based Coverage</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="applyScholarship()">Apply for Scholarship</button>
+                <button class="btn btn-secondary" onclick="viewScholarships()">View All Scholarships</button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <a href="mailto:foundation@esil.edu.kz">foundation@esil.edu.kz</a>
+                    <a href="tel:+77172123456">+7 (717) 212-34-56</a>
+                    <p>Astana, Kazakhstan<br>Kabanbay Batyr Ave, 43A</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#apply">Apply Online</a>
+                    <a href="#curriculum">Curriculum Details</a>
+                    <a href="#faculty">Meet Faculty</a>
+                    <a href="#scholarships">Scholarships</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <a href="javascript:void(0)" onclick="downloadResearch()">Research Papers</a>
+                    <a href="javascript:void(0)" onclick="accessAITools()">AI Learning Tools</a>
+                    <a href="javascript:void(0)" onclick="downloadCulturalGuide()">Cultural Guides</a>
+                    <a href="javascript:void(0)" onclick="viewAssessment()">Assessment Framework</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Languages</h3>
+                    <a href="javascript:void(0)" onclick="switchLanguage('en')">🇬🇧 English</a>
+                    <a href="javascript:void(0)" onclick="switchLanguage('ru')">🇷🇺 Русский</a>
+                    <a href="javascript:void(0)" onclick="switchLanguage('kz')">🇰🇿 Қазақша</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 ESIL University. All rights reserved. | Foundation Year Program - Trilingual Excellence</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollTop / documentHeight;
+            document.querySelector('.scroll-indicator').style.transform = `scaleX(${scrollPercent})`;
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(45, 90, 107, 0.95)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #2d5a6b 0%, #1e3a5f 100%)';
+            }
+        });
+
+        // Card hover effects
+        document.querySelectorAll('.step-card, .news-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            if (navMenu.style.display === 'flex') {
+                navMenu.style.display = 'none';
+            } else {
+                navMenu.style.display = 'flex';
+                navMenu.style.flexDirection = 'column';
+                navMenu.style.position = 'absolute';
+                navMenu.style.top = '100%';
+                navMenu.style.left = '0';
+                navMenu.style.right = '0';
+                navMenu.style.background = '#2d5a6b';
+                navMenu.style.padding = '1rem';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.step-card, .feature-item, .news-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (element.textContent.includes('+') ? '+' : '') + (element.textContent.includes('%') ? '%' : '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (element.textContent.includes('+') ? '+' : '') + (element.textContent.includes('%') ? '%' : '');
+                }
+            }, 20);
+        }
+
+        // Trigger counter animations when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const target = parseInt(stat.textContent.replace(/[^0-9]/g, ''));
+                        animateCounter(stat, target);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Button interaction functions
+        function openApplicationForm() {
+            // Store application data in localStorage for admin access
+            const applicationData = {
+                timestamp: new Date().toISOString(),
+                status: 'pending',
+                source: 'website_application_button'
+            };
+            
+            // Get existing applications or create new array
+            const existingApps = JSON.parse(localStorage.getItem('applications') || '[]');
+            
+            // Prompt for basic application info (in real implementation, this would be a form)
+            const name = prompt('Enter your full name:');
+            if (!name) return;
+            
+            const email = prompt('Enter your email address:');
+            if (!email) return;
+            
+            const language = prompt('Preferred instruction language (English/Russian/Kazakh):');
+            if (!language) return;
+            
+            const motivation = prompt('Brief motivation (why do you want to join our program?):');
+            if (!motivation) return;
+            
+            // Create application object
+            const newApplication = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                language: language,
+                motivation: motivation,
+                status: 'pending',
+                dateApplied: new Date().toISOString().split('T')[0],
+                grades: 'Pending verification'
+            };
+            
+            existingApps.push(newApplication);
+            localStorage.setItem('applications', JSON.stringify(existingApps));
+            
+            alert('🎓 Application Submitted!\n\nThank you for your interest in our Foundation Year Program!\n\nYour application has been submitted and will be reviewed within 48 hours.\n\nYou will receive an email confirmation shortly.\n\nApplication ID: ' + newApplication.id);
+        }
+
+        function downloadBrochure() {
+            alert('📄 Downloading Program Brochure\n\nThe comprehensive Foundation Year Program brochure is being downloaded...\n\nIncludes:\n• Full curriculum details\n• Faculty profiles\n• Campus information\n• Student testimonials');
+            // In real implementation: window.open('/downloads/foundation-brochure.pdf', '_blank');
+        }
+
+        function scheduleConsultation() {
+            // Store consultation request
+            const consultations = JSON.parse(localStorage.getItem('consultations') || '[]');
+            
+            const name = prompt('Enter your name:');
+            if (!name) return;
+            
+            const email = prompt('Enter your email:');
+            if (!email) return;
+            
+            const preferredDate = prompt('Preferred consultation date (YYYY-MM-DD):');
+            const notes = prompt('Any specific questions or topics to discuss? (optional)');
+            
+            const consultation = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                preferredDate: preferredDate,
+                notes: notes || '',
+                status: 'scheduled',
+                requestDate: new Date().toISOString().split('T')[0]
+            };
+            
+            consultations.push(consultation);
+            localStorage.setItem('consultations', JSON.stringify(consultations));
+            
+            alert('📅 Consultation Scheduled!\n\nThank you for booking a consultation!\n\nOur admissions team will contact you within 24 hours to confirm your appointment.\n\nPreferred date: ' + (preferredDate || 'To be determined') + '\n\nContact: +7 (717) 212-34-56');
+        }
+
+        function applyScholarship() {
+            // Store scholarship application
+            const scholarships = JSON.parse(localStorage.getItem('scholarshipApplications') || '[]');
+            
+            const name = prompt('Enter your full name:');
+            if (!name) return;
+            
+            const email = prompt('Enter your email:');
+            if (!email) return;
+            
+            const scholarshipType = prompt('Scholarship type (Merit-based/Need-based/Cultural Ambassador/Language Proficiency):');
+            const familyIncome = prompt('Annual family income (KZT) - for need-based assessment:');
+            const achievements = prompt('List your key achievements:');
+            
+            const scholarship = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                type: scholarshipType,
+                familyIncome: familyIncome,
+                achievements: achievements,
+                status: 'under_review',
+                applicationDate: new Date().toISOString().split('T')[0]
+            };
+            
+            scholarships.push(scholarship);
+            localStorage.setItem('scholarshipApplications', JSON.stringify(scholarships));
+            
+            alert('💰 Scholarship Application Submitted!\n\nYour scholarship application has been received!\n\nType: ' + scholarshipType + '\n\nReview process typically takes 2-3 weeks.\n\nYou will be notified of the decision via email.\n\nApplication ID: ' + scholarship.id);
+        }
+
+        function viewFullCurriculum() {
+            alert('📚 Full Curriculum Access\n\nAccessing detailed 30-week curriculum...\n\nIncludes:\n• Week-by-week breakdown\n• Learning objectives\n• Assessment criteria\n• Required materials');
+            // In real implementation: window.open('/curriculum/foundation-year', '_blank');
+        }
+
+        function contactFaculty(email) {
+            alert(`📧 Contact Faculty\n\nOpening email to: ${email}\n\nOur faculty typically responds within 24 hours.\n\nOffice hours:\n• Monday-Friday: 9:00-17:00\n• Saturday: 9:00-12:00`);
+            // In real implementation: window.location.href = `mailto:${email}`;
+        }
+
+        function applyScholarship() {
+            // Store scholarship application
+            const scholarships = JSON.parse(localStorage.getItem('scholarshipApplications') || '[]');
+            
+            const name = prompt('Enter your full name:');
+            if (!name) return;
+            
+            const email = prompt('Enter your email:');
+            if (!email) return;
+            
+            const scholarshipType = prompt('Scholarship type (Merit-based/Need-based/Cultural Ambassador/Language Proficiency):');
+            const familyIncome = prompt('Annual family income (KZT) - for need-based assessment:');
+            const achievements = prompt('List your key achievements:');
+            
+            const scholarship = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                type: scholarshipType,
+                familyIncome: familyIncome,
+                achievements: achievements,
+                status: 'under_review',
+                applicationDate: new Date().toISOString().split('T')[0]
+            };
+            
+            scholarships.push(scholarship);
+            localStorage.setItem('scholarshipApplications', JSON.stringify(scholarships));
+            
+            alert('💰 Scholarship Application Submitted!\n\nYour scholarship application has been received!\n\nType: ' + scholarshipType + '\n\nReview process typically takes 2-3 weeks.\n\nYou will be notified of the decision via email.\n\nApplication ID: ' + scholarship.id);
+        }
+
+        function viewScholarships() {
+            alert('🏆 Scholarship Information\n\nViewing all available scholarships...\n\nTypes include:\n• Academic Excellence (up to 500,000 KZT)\n• Cultural Ambassador Program\n• Language Proficiency Awards\n• Community Service Recognition');
+            // In real implementation: window.open('/scholarships', '_blank');
+        }
+
+        function downloadResearch() {
+            alert('📊 Research Papers\n\nAccessing trilingual education research...\n\nRecent publications:\n• Linguistic Convergence Studies\n• Cultural Framework Analysis\n• AI Integration Reports\n• Cognitive Psychology Findings');
+            // In real implementation: window.open('/research/papers', '_blank');
+        }
+
+        function accessAITools() {
+            alert('🤖 AI Learning Tools\n\nAccessing ISSAI integrated tools...\n\nAvailable tools:\n• KAZ-LLM language model\n• Soyle speech platform\n• Multilingual chatbots\n• Assessment analytics');
+            // In real implementation: window.open('/tools/ai-learning', '_blank');
+        }
+
+        function downloadCulturalGuide() {
+            alert('🌍 Cultural Guides\n\nDownloading cultural navigation guides...\n\nIncludes:\n• Kazakh traditional systems\n• Russian intellectual traditions\n• Western analytical frameworks\n• Cross-cultural communication');
+            // In real implementation: window.open('/downloads/cultural-guides.pdf', '_blank');
+        }
+
+        function viewAssessment() {
+            alert('📋 Assessment Framework\n\nViewing multilayered assessment system...\n\nComponents:\n• Convergence Navigation (30%)\n• Pattern Recognition (25%)\n• Cultural Analysis (25%)\n• AI Collaboration (20%)');
+            // In real implementation: window.open('/assessment/framework', '_blank');
+        }
+
+        function switchLanguage(lang) {
+            const languages = {
+                'en': '🇬🇧 English',
+                'ru': '🇷🇺 Русский', 
+                'kz': '🇰🇿 Қазақша'
+            };
+            
+            alert(`🌐 Language Switch\n\nSwitching to: ${languages[lang]}\n\nThis feature demonstrates our trilingual approach!\n\nIn the full implementation, the entire site would translate to your selected language.`);
+            
+            // In real implementation, this would change the page language
+            // document.documentElement.lang = lang;
+            // loadTranslations(lang);
+        }
+
+        // Admin access function (hidden)
+        function openAdminPanel() {
+            window.open('admin.html', '_blank');
+        }
+
+        // Secret admin access - type "admin123" anywhere on the page
+        let adminSequence = '';
+        document.addEventListener('keypress', function(e) {
+            adminSequence += e.key;
+            if (adminSequence.includes('admin123')) {
+                openAdminPanel();
+                adminSequence = '';
+            }
+            if (adminSequence.length > 10) {
+                adminSequence = adminSequence.slice(-10);
+            }
+        });
+    </script>
+</body>
+</html>

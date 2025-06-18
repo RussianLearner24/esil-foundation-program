@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - ESIL Foundation Program</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .login-header p {
+            color: #718096;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .admin-panel {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            color: #2d3748;
+        }
+
+        .logout-btn {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c53030;
+        }
+
+        .admin-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #718096;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .data-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn-view {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #ffa726;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        .form-container {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+            transition: border-color 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #4ecdc4;
+        }
+
+        .upload-area.dragover {
+            border-color: #4ecdc4;
+            background: #f0fff4;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #4ecdc4;
+            background: white;
+            color: #4ecdc4;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 5% auto;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .close-modal:hover {
+            color: #e53e3e;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .admin-tabs {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="loginContainer" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>🎓 Admin Panel</h1>
+                <p>ESIL Foundation Program Management</p>
+            </div>
+            
+            <div id="errorMessage" class="error-message">
+                Invalid username or password. Please try again.
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-header">
+            <h1 class="admin-title">📊 Foundation Program Dashboard</h1>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number" id="totalApplications">0</span>
+                <span>Total Applications</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="pendingReviews">0</span>
+                <span>Pending Reviews</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="acceptedStudents">0</span>
+                <span>Accepted Students</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="scholarshipRequests">0</span>
+                <span>Scholarship Requests</span>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="switchTab('applications')">📋 Applications</button>
+            <button class="tab-btn" onclick="switchTab('students')">👥 Students</button>
+            <button class="tab-btn" onclick="switchTab('scholarships')">💰 Scholarships</button>
+            <button class="tab-btn" onclick="switchTab('consultations')">📅 Consultations</button>
+            <button class="tab-btn" onclick="switchTab('content')">📄 Content</button>
+            <button class="tab-btn" onclick="switchTab('analytics')">📈 Analytics</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
+        </div>
+
+        <!-- Applications Tab -->
+        <div id="applicationsTab" class="tab-content active">
+            <h2>Student Applications</h2>
+            
+            <input type="text" class="search-bar" placeholder="Search applications..." id="searchApplications">
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterApplications('all')">All</button>
+                <button class="filter-btn" onclick="filterApplications('pending')">Pending</button>
+                <button class="filter-btn" onclick="filterApplications('accepted')">Accepted</button>
+                <button class="filter-btn" onclick="filterApplications('rejected')">Rejected</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Language Preference</th>
+                        <th>Status</th>
+                        <th>Date Applied</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationsTableBody">
+                    <!-- Applications will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Students Tab -->
+        <div id="studentsTab" class="tab-content">
+            <h2>Enrolled Students</h2>
+            
+            <input type="text" class="search-bar" placeholder="Search students..." id="searchStudents">
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Progress</th>
+                        <th>Current Week</th>
+                        <th>Languages</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <!-- Students will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Scholarships Tab -->
+        <div id="scholarshipsTab" class="tab-content">
+            <h2>Scholarship Applications</h2>
+            
+            <input type="text" class="search-bar" placeholder="Search scholarship applications..." id="searchScholarships">
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterScholarships('all')">All</button>
+                <button class="filter-btn" onclick="filterScholarships('under_review')">Under Review</button>
+                <button class="filter-btn" onclick="filterScholarships('approved')">Approved</button>
+                <button class="filter-btn" onclick="filterScholarships('denied')">Denied</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Scholarship Type</th>
+                        <th>Status</th>
+                        <th>Application Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="scholarshipsTableBody">
+                    <!-- Scholarships will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Consultations Tab -->
+        <div id="consultationsTab" class="tab-content">
+            <h2>Consultation Requests</h2>
+            
+            <input type="text" class="search-bar" placeholder="Search consultations..." id="searchConsultations">
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterConsultations('all')">All</button>
+                <button class="filter-btn" onclick="filterConsultations('scheduled')">Scheduled</button>
+                <button class="filter-btn" onclick="filterConsultations('completed')">Completed</button>
+                <button class="filter-btn" onclick="filterConsultations('cancelled')">Cancelled</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Preferred Date</th>
+                        <th>Status</th>
+                        <th>Request Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="consultationsTableBody">
+                    <!-- Consultations will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Content Tab -->
+        <div id="contentTab" class="tab-content">
+            <h2>Content Management</h2>
+            
+            <div class="form-container">
+                <h3>Upload New Content</h3>
+                <div class="form-row">
+                    <div>
+                        <label>Content Type</label>
+                        <select id="contentType">
+                            <option value="curriculum">Curriculum Material</option>
+                            <option value="assessment">Assessment</option>
+                            <option value="research">Research Paper</option>
+                            <option value="news">News Article</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Language</label>
+                        <select id="contentLanguage">
+                            <option value="en">English</option>
+                            <option value="ru">Russian</option>
+                            <option value="kz">Kazakh</option>
+                            <option value="all">All Languages</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="upload-area" id="uploadArea">
+                    <p>📎 Drag and drop files here or click to browse</p>
+                    <input type="file" id="fileInput" multiple style="display: none;">
+                </div>
+                
+                <button class="login-btn" onclick="uploadContent()">Upload Content</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Language</th>
+                        <th>Upload Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="contentTableBody">
+                    <!-- Content will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analyticsTab" class="tab-content">
+            <h2>Program Analytics</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">85%</span>
+                    <span>Completion Rate</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">4.7/5</span>
+                    <span>Average Rating</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">23</span>
+                    <span>Countries Represented</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">92%</span>
+                    <span>Employment Rate</span>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h3>📊 Analytics Dashboard</h3>
+                <p>Language Learning Progress Distribution:</p>
+                <div style="background: #f7fafc; padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                    <strong>English:</strong> 78% proficiency average<br>
+                    <strong>Russian:</strong> 82% proficiency average<br>
+                    <strong>Kazakh:</strong> 71% proficiency average
+                </div>
+                
+                <p>Student Geographic Distribution:</p>
+                <div style="background: #f7fafc; padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                    🇰🇿 Kazakhstan: 45%<br>
+                    🇷🇺 Russia: 25%<br>
+                    🌍 International: 30%
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settingsTab" class="tab-content">
+            <h2>System Settings</h2>
+            
+            <div class="form-container">
+                <h3>Application Settings</h3>
+                <div class="form-row">
+                    <div>
+                        <label>Application Deadline</label>
+                        <input type="date" id="applicationDeadline" value="2025-08-15">
+                    </div>
+                    <div>
+                        <label>Program Start Date</label>
+                        <input type="date" id="programStartDate" value="2025-09-15">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div>
+                        <label>Max Enrollment</label>
+                        <input type="number" id="maxEnrollment" value="120">
+                    </div>
+                    <div>
+                        <label>Application Fee (KZT)</label>
+                        <input type="number" id="applicationFee" value="25000">
+                    </div>
+                </div>
+                
+                <button class="login-btn" onclick="saveSettings()">Save Settings</button>
+            </div>
+
+            <div class="form-container">
+                <h3>Data Management</h3>
+                <button class="action-btn btn-view" onclick="exportData()">📥 Export All Data</button>
+                <button class="action-btn btn-edit" onclick="importData()">📤 Import Data</button>
+                <button class="action-btn btn-delete" onclick="clearData()">🗑️ Clear All Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for viewing details -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalContent">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Authentication
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: '1234'
+        };
+
+        // Sample data - in a real app, this would come from a database
+        let applicationData = [];
+        let studentData = [
+            {
+                id: "FY2025001",
+                name: "Arman Nazarbayev",
+                progress: 75,
+                currentWeek: 18,
+                languages: "EN, RU, KZ"
+            },
+            {
+                id: "FY2025002",
+                name: "Elena Volkov",
+                progress: 82,
+                currentWeek: 20,
+                languages: "EN, RU"
+            }
+        ];
+
+        let contentData = [
+            {
+                title: "Week 1-2: Cognate Archaeology",
+                type: "curriculum",
+                language: "all",
+                uploadDate: "2025-06-01"
+            },
+            {
+                title: "Cultural Analysis Assessment",
+                type: "assessment",
+                language: "en",
+                uploadDate: "2025-06-05"
+            }
+        ];
+
+        // Load data from localStorage
+        function loadStoredData() {
+            // Load applications from localStorage
+            const storedApplications = localStorage.getItem('applications');
+            if (storedApplications) {
+                const parsed = JSON.parse(storedApplications);
+                applicationData = parsed;
+            } else {
+                // Default sample data if no stored data
+                applicationData = [
+                    {
+                        id: 1,
+                        name: "Aida Kazakhova",
+                        email: "aida.k@email.com",
+                        language: "Kazakh",
+                        status: "pending",
+                        dateApplied: "2025-06-15",
+                        motivation: "I am passionate about trilingual education...",
+                        grades: "4.8 GPA"
+                    },
+                    {
+                        id: 2,
+                        name: "Ivan Petrov",
+                        email: "ivan.p@email.com",
+                        language: "Russian",
+                        status: "accepted",
+                        dateApplied: "2025-06-10",
+                        motivation: "My goal is to master three languages...",
+                        grades: "4.6 GPA"
+                    },
+                    {
+                        id: 3,
+                        name: "Sarah Johnson",
+                        email: "sarah.j@email.com",
+                        language: "English",
+                        status: "pending",
+                        dateApplied: "2025-06-12",
+                        motivation: "International perspective is crucial...",
+                        grades: "4.9 GPA"
+                    }
+                ];
+            }
+
+            // Load scholarship applications
+            const scholarships = localStorage.getItem('scholarshipApplications');
+            if (scholarships) {
+                window.scholarshipData = JSON.parse(scholarships);
+            }
+
+            // Load consultation requests
+            const consultations = localStorage.getItem('consultations');
+            if (consultations) {
+                window.consultationData = JSON.parse(consultations);
+            }
+        }
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadDashboardData();
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginForm').reset();
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Load data for the selected tab
+            loadTabData(tabName);
+        }
+
+        // Load dashboard data
+        function loadDashboardData() {
+            loadStoredData(); // Load from localStorage first
+            
+            document.getElementById('totalApplications').textContent = applicationData.length;
+            document.getElementById('pendingReviews').textContent = applicationData.filter(app => app.status === 'pending').length;
+            document.getElementById('acceptedStudents').textContent = applicationData.filter(app => app.status === 'accepted').length;
+            
+            // Calculate scholarship requests from stored data
+            const scholarshipCount = window.scholarshipData ? window.scholarshipData.length : Math.floor(applicationData.length * 0.6);
+            document.getElementById('scholarshipRequests').textContent = scholarshipCount;
+            
+            loadTabData('applications');
+        }
+
+        // Load data for specific tabs
+        function loadTabData(tabName) {
+            switch(tabName) {
+                case 'applications':
+                    loadApplicationsTable();
+                    break;
+                case 'students':
+                    loadStudentsTable();
+                    break;
+                case 'scholarships':
+                    loadScholarshipsTable();
+                    break;
+                case 'consultations':
+                    loadConsultationsTable();
+                    break;
+                case 'content':
+                    loadContentTable();
+                    break;
+            }
+        }
+
+        // Load scholarships table
+        function loadScholarshipsTable() {
+            const tbody = document.getElementById('scholarshipsTableBody');
+            tbody.innerHTML = '';
+            
+            const scholarships = window.scholarshipData || [];
+            
+            scholarships.forEach(scholarship => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${scholarship.name}</td>
+                    <td>${scholarship.email}</td>
+                    <td>${scholarship.type}</td>
+                    <td><span style="background: ${getStatusColor(scholarship.status)}; color: white; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.8rem;">${scholarship.status.toUpperCase()}</span></td>
+                    <td>${scholarship.applicationDate}</td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewScholarship(${scholarship.id})">View</button>
+                        <button class="action-btn btn-edit" onclick="updateScholarshipStatus(${scholarship.id})">Update</button>
+                    </td>
+                `;
+            });
+            
+            if (scholarships.length === 0) {
+                const row = tbody.insertRow();
+                row.innerHTML = '<td colspan="6" style="text-align: center; color: #718096;">No scholarship applications found</td>';
+            }
+        }
+
+        // Load consultations table
+        function loadConsultationsTable() {
+            const tbody = document.getElementById('consultationsTableBody');
+            tbody.innerHTML = '';
+            
+            const consultations = window.consultationData || [];
+            
+            consultations.forEach(consultation => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${consultation.name}</td>
+                    <td>${consultation.email}</td>
+                    <td>${consultation.preferredDate || 'TBD'}</td>
+                    <td><span style="background: ${getStatusColor(consultation.status)}; color: white; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.8rem;">${consultation.status.toUpperCase()}</span></td>
+                    <td>${consultation.requestDate}</td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewConsultation(${consultation.id})">View</button>
+                        <button class="action-btn btn-edit" onclick="updateConsultationStatus(${consultation.id})">Update</button>
+                    </td>
+                `;
+            });
+            
+            if (consultations.length === 0) {
+                const row = tbody.insertRow();
+                row.innerHTML = '<td colspan="6" style="text-align: center; color: #718096;">No consultation requests found</td>';
+            }
+        }
+        function loadApplicationsTable() {
+            const tbody = document.getElementById('applicationsTableBody');
+            tbody.innerHTML = '';
+            
+            applicationData.forEach(app => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${app.name}</td>
+                    <td>${app.email}</td>
+                    <td>${app.language}</td>
+                    <td><span style="background: ${getStatusColor(app.status)}; color: white; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.8rem;">${app.status.toUpperCase()}</span></td>
+                    <td>${app.dateApplied}</td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewApplication(${app.id})">View</button>
+                        <button class="action-btn btn-edit" onclick="updateStatus(${app.id})">Update</button>
+                    </td>
+                `;
+            });
+        }
+
+        // Load students table
+        function loadStudentsTable() {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+            
+            studentData.forEach(student => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>
+                        <div style="background: #e2e8f0; border-radius: 10px; overflow: hidden;">
+                            <div style="background: #4ecdc4; height: 8px; width: ${student.progress}%;"></div>
+                        </div>
+                        ${student.progress}%
+                    </td>
+                    <td>Week ${student.currentWeek}/30</td>
+                    <td>${student.languages}</td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewStudent('${student.id}')">View</button>
+                        <button class="action-btn btn-edit" onclick="editStudent('${student.id}')">Edit</button>
+                    </td>
+                `;
+            });
+        }
+
+        // Load content table
+        function loadContentTable() {
+            const tbody = document.getElementById('contentTableBody');
+            tbody.innerHTML = '';
+            
+            contentData.forEach((content, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${content.title}</td>
+                    <td>${content.type}</td>
+                    <td>${content.language.toUpperCase()}</td>
+                    <td>${content.uploadDate}</td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewContent(${index})">View</button>
+                        <button class="action-btn btn-edit" onclick="editContent(${index})">Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteContent(${index})">Delete</button>
+                    </td>
+                `;
+            });
+        }
+
+        // Helper functions
+        function getStatusColor(status) {
+            switch(status) {
+                case 'pending': return '#ffa726';
+                case 'accepted': return '#4caf50';
+                case 'rejected': return '#f44336';
+                case 'under_review': return '#ff9800';
+                case 'approved': return '#4caf50';
+                case 'denied': return '#f44336';
+                case 'scheduled': return '#2196f3';
+                case 'completed': return '#4caf50';
+                case 'cancelled': return '#f44336';
+                default: return '#9e9e9e';
+            }
+        }
+
+        // Filter applications
+        function filterApplications(status) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Implementation for filtering would go here
+            // For demo purposes, we'll just reload the table
+            loadApplicationsTable();
+        }
+
+        // Filter scholarships
+        function filterScholarships(status) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Implementation for filtering would go here
+            loadScholarshipsTable();
+        }
+
+        // Filter consultations
+        function filterConsultations(status) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Implementation for filtering would go here
+            loadConsultationsTable();
+        }
+
+        // Modal functions
+        function viewApplication(id) {
+            const app = applicationData.find(a => a.id === id);
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <h2>Application Details</h2>
+                <p><strong>Name:</strong> ${app.name}</p>
+                <p><strong>Email:</strong> ${app.email}</p>
+                <p><strong>Preferred Language:</strong> ${app.language}</p>
+                <p><strong>Status:</strong> ${app.status}</p>
+                <p><strong>Date Applied:</strong> ${app.dateApplied}</p>
+                <p><strong>Academic Performance:</strong> ${app.grades}</p>
+                <p><strong>Motivation Letter:</strong></p>
+                <p style="background: #f7fafc; padding: 1rem; border-radius: 10px;">${app.motivation || app.motivationLetter || 'Not provided'}</p>
+            `;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function viewScholarship(id) {
+            const scholarship = window.scholarshipData.find(s => s.id === id);
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <h2>Scholarship Application Details</h2>
+                <p><strong>Name:</strong> ${scholarship.name}</p>
+                <p><strong>Email:</strong> ${scholarship.email}</p>
+                <p><strong>Scholarship Type:</strong> ${scholarship.type}</p>
+                <p><strong>Status:</strong> ${scholarship.status}</p>
+                <p><strong>Application Date:</strong> ${scholarship.applicationDate}</p>
+                <p><strong>Family Income:</strong> ${scholarship.familyIncome || 'Not provided'} KZT</p>
+                <p><strong>Achievements:</strong></p>
+                <p style="background: #f7fafc; padding: 1rem; border-radius: 10px;">${scholarship.achievements || 'Not provided'}</p>
+            `;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function viewConsultation(id) {
+            const consultation = window.consultationData.find(c => c.id === id);
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <h2>Consultation Request Details</h2>
+                <p><strong>Name:</strong> ${consultation.name}</p>
+                <p><strong>Email:</strong> ${consultation.email}</p>
+                <p><strong>Preferred Date:</strong> ${consultation.preferredDate || 'To be determined'}</p>
+                <p><strong>Status:</strong> ${consultation.status}</p>
+                <p><strong>Request Date:</strong> ${consultation.requestDate}</p>
+                <p><strong>Notes/Questions:</strong></p>
+                <p style="background: #f7fafc; padding: 1rem; border-radius: 10px;">${consultation.notes || 'No specific questions provided'}</p>
+            `;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function updateScholarshipStatus(id) {
+            const newStatus = prompt('Enter new status (under_review, approved, denied):');
+            if (newStatus && ['under_review', 'approved', 'denied'].includes(newStatus.toLowerCase())) {
+                const scholarship = window.scholarshipData.find(s => s.id === id);
+                scholarship.status = newStatus.toLowerCase();
+                localStorage.setItem('scholarshipApplications', JSON.stringify(window.scholarshipData));
+                loadScholarshipsTable();
+                loadDashboardData();
+                alert('Scholarship status updated successfully!');
+            }
+        }
+
+        function updateConsultationStatus(id) {
+            const newStatus = prompt('Enter new status (scheduled, completed, cancelled):');
+            if (newStatus && ['scheduled', 'completed', 'cancelled'].includes(newStatus.toLowerCase())) {
+                const consultation = window.consultationData.find(c => c.id === id);
+                consultation.status = newStatus.toLowerCase();
+                localStorage.setItem('consultations', JSON.stringify(window.consultationData));
+                loadConsultationsTable();
+                alert('Consultation status updated successfully!');
+            }
+        }
+
+        function updateStatus(id) {
+            const newStatus = prompt('Enter new status (pending, accepted, rejected):');
+            if (newStatus && ['pending', 'accepted', 'rejected'].includes(newStatus.toLowerCase())) {
+                const app = applicationData.find(a => a.id === id);
+                app.status = newStatus.toLowerCase();
+                loadApplicationsTable();
+                loadDashboardData();
+                alert('Status updated successfully!');
+            }
+        }
+
+        function viewStudent(id) {
+            const student = studentData.find(s => s.id === id);
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <h2>Student Progress</h2>
+                <p><strong>Student ID:</strong> ${student.id}</p>
+                <p><strong>Name:</strong> ${student.name}</p>
+                <p><strong>Overall Progress:</strong> ${student.progress}%</p>
+                <p><strong>Current Week:</strong> ${student.currentWeek} of 30</p>
+                <p><strong>Languages:</strong> ${student.languages}</p>
+                <div style="background: #f7fafc; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                    <h4>Recent Activity:</h4>
+                    <p>• Completed Week ${student.currentWeek - 1} assessment</p>
+                    <p>• Submitted cultural analysis project</p>
+                    <p>• Attended AI integration workshop</p>
+                </div>
+            `;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // Upload functionality
+        document.getElementById('uploadArea').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('uploadArea').addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        document.getElementById('uploadArea').addEventListener('dragleave', function(e) {
+            this.classList.remove('dragover');
+        });
+
+        document.getElementById('uploadArea').addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            for (let file of files) {
+                console.log('File selected:', file.name);
+                // In a real implementation, files would be uploaded to a server
+            }
+        }
+
+        function uploadContent() {
+            const type = document.getElementById('contentType').value;
+            const language = document.getElementById('contentLanguage').value;
+            
+            // Simulate upload
+            const newContent = {
+                title: "New " + type + " - " + new Date().toLocaleDateString(),
+                type: type,
+                language: language,
+                uploadDate: new Date().toISOString().split('T')[0]
+            };
+            
+            contentData.push(newContent);
+            loadContentTable();
+            alert('Content uploaded successfully!');
+        }
+
+        // Settings functions
+        function saveSettings() {
+            const deadline = document.getElementById('applicationDeadline').value;
+            const startDate = document.getElementById('programStartDate').value;
+            const maxEnrollment = document.getElementById('maxEnrollment').value;
+            const applicationFee = document.getElementById('applicationFee').value;
+            
+            // In a real implementation, these would be saved to a database
+            localStorage.setItem('programSettings', JSON.stringify({
+                deadline, startDate, maxEnrollment, applicationFee
+            }));
+            
+            alert('Settings saved successfully!');
+        }
+
+        function exportData() {
+            const data = {
+                applications: applicationData,
+                students: studentData,
+                content: contentData,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'esil-foundation-data-' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (data.applications) applicationData = data.applications;
+                        if (data.students) studentData = data.students;
+                        if (data.content) contentData = data.content;
+                        
+                        loadDashboardData();
+                        alert('Data imported successfully!');
+                    } catch (error) {
+                        alert('Error importing data: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function clearData() {
+            if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+                applicationData = [];
+                studentData = [];
+                contentData = [];
+                loadDashboardData();
+                alert('All data cleared.');
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchApplications').addEventListener('input', function() {
+            const search = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#applicationsTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(search) ? '' : 'none';
+            });
+        });
+
+        document.getElementById('searchStudents').addEventListener('input', function() {
+            const search = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#studentsTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(search) ? '' : 'none';
+            });
+        });
+
+        // Additional placeholder functions
+        function editStudent(id) {
+            alert('Edit student functionality - would open student edit form');
+        }
+
+        function viewContent(index) {
+            const content = contentData[index];
+            alert(`Content: ${content.title}\nType: ${content.type}\nLanguage: ${content.language}`);
+        }
+
+        function editContent(index) {
+            alert('Edit content functionality - would open content editor');
+        }
+
+        function deleteContent(index) {
+            if (confirm('Are you sure you want to delete this content?')) {
+                contentData.splice(index, 1);
+                loadContentTable();
+                alert('Content deleted successfully!');
+            }
+        }
+
+        // Load saved settings on page load
+        window.addEventListener('load', function() {
+            const savedSettings = localStorage.getItem('programSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                document.getElementById('applicationDeadline').value = settings.deadline;
+                document.getElementById('programStartDate').value = settings.startDate;
+                document.getElementById('maxEnrollment').value = settings.maxEnrollment;
+                document.getElementById('applicationFee').value = settings.applicationFee;
+            }
+        });
+    </script>
+</body>
+</html>
